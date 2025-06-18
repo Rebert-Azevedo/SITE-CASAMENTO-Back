@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const authController = require('../controllers/authController');
+const authController = require('../controllers/authController'); // Importa o controller
+const protect = require('../middleware/authMiddleware'); // Importa o middleware de proteção
 
-router.post('/login', authController.loginAdmin);
-router.post('/register', authController.registerAdmin); // Considere remover ou proteger após o primeiro admin ser criado.
+router.get('/validate-key', protect, authController.validateSecretKey);
 
 module.exports = router;

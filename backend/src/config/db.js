@@ -2,16 +2,16 @@ const mysql = require('mysql2/promise');
 require('dotenv').config();
 
 const pool = mysql.createPool({
-    host: process.env.DB_HOST || 'localhost',
-    port: process.env.DB_PORT || 3306, // Adiciona essa linha
-    user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || 'sua_senha_do_mysql',
-    database: process.env.DB_NAME || 'casamento_db',
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    port: process.env.DB_PORT,
     waitForConnections: true,
     connectionLimit: 10,
-    queueLimit: 0
+    queueLimit: 0,
+    trace: false // Desabilita o rastreamento verboso do pool
 });
-
 
 async function testDbConnection() {
     try {
@@ -19,8 +19,10 @@ async function testDbConnection() {
         console.log('Conexão com o banco de dados MySQL estabelecida com sucesso!');
         connection.release();
     } catch (error) {
-        console.error('Erro ao conectar ao banco de dados MySQL:', error.message);
-        throw error; // Lança o erro para o server.js lidar
+        console.error('ERRO CRÍTICO: Falha ao conectar ao banco de dados MySQL!');
+        console.error('Detalhes do Erro:', error.message);
+        console.error('Código do Erro:', error.code);
+        process.exit(1); // Encerra a aplicação se não conseguir conectar
     }
 }
 
