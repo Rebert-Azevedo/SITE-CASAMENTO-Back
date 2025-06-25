@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 5000;
 testDbConnection().then(() => {
     app.listen(PORT, () => {
         console.log(`Servidor rodando na porta ${PORT}`);
-        console.log(`Acesse: http://localhost:${PORT}`); 
+        console.log(`Acesse: http://site-casamento-back-production.up.railway.app:${PORT}`); 
     });
 }).catch(err => {
     console.error('Falha ao iniciar o servidor:', err.message);
